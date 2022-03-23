@@ -1,0 +1,25 @@
+python3.9 -m venv venv
+
+. venv/bin/activate
+
+pip install django
+pip install django-crispy-forms
+pip install pillow
+
+django-admin startproject loja .
+
+python manage.py startapp produto
+python manage.py startapp pedido
+python manage.py startapp perfil
+
+python manage.py check
+
+python manage.py migrate
+
+python manage.py createsuperuser
+
+python manage.py runserver
+
+pip install django-debug-toolbar
+
+python manage.py makemigrations
