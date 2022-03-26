@@ -23,3 +23,6 @@ python manage.py runserver
 pip install django-debug-toolbar
 
 python manage.py makemigrations
+
+# exibir apps instalados
+pip freeze
