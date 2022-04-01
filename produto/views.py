@@ -5,6 +5,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from . import models
+from perfil.models import Perfil
 
 from pprint import pprint
 
@@ -25,11 +26,6 @@ class DetalheProduto(DetailView):
 
 class AdicionarAoCarrinho(View):
     def get(self, *args, **kwargs):
-        # TODO - remover linhas
-        # if self.request.session.get('carrinho'):
-        #    del self.request.session['carrinho']
-        #    self.request.session.save()
-
         http_referer = self.request.META.get(
             'HTTP_REFERER',
             reverse('produto:lista')
@@ -145,13 +141,32 @@ class RemoverDoCarrinho(View):
 
 class Carrinho(View):
     def get(self, *args, **kwargs):
-        # contexto = {
-        #    'carrinho': self.request.session.get('carrinho', {})
-        # }
-        # return render(self.request, 'produto/carrinho.html', contexto)
         return render(self.request, 'produto/carrinho.html')
 
 
 class ResumoDaCompra(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Finalizar')
+        if not self.request.user.is_authenticated:
+            return redirect('perfil:criar')
+
+        perfil = Perfil.objects.filter(usuario=self.request.user).exists()
+
+        if not perfil:
+            messages.error(
+                self.request,
+                'Usuário se perfil.'
+            )
+            return redirect('perfil:criar')
+
+        if not self.request.session.get('carrinho'):
+            messages.error(
+                self.request,
+                'Carrinho Vazio'
+            )
+            return redirect('produto:lista')
+
+        contexto = {
+            'usuario': self.request.user
+        }
+
+        return render(self.request, 'produto/resumodacompra.html', contexto)

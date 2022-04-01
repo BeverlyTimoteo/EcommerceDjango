@@ -26,3 +26,5 @@ python manage.py makemigrations
 
 # exibir apps instalados
 pip freeze
+
+python manage.py changepassword beverly

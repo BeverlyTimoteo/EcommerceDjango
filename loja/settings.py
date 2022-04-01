@@ -131,7 +131,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
-    'templates/static'
+    BASE_DIR / 'templates/static'
 ]
 
 MEDIA_URL = '/media/'
@@ -164,3 +164,5 @@ SESSION_SAVE_EVERY_REQUEST = False
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
